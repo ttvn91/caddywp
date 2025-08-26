@@ -32,7 +32,7 @@ create_env_file() {
     #echo "Generating $ENV_FILE..."
 
     cat <<EOL > "${WP_PROJECT_DIR}/$ENV_FILE"
-    DOMAIN_NAME = ${DOMAIN}
+DOMAIN_NAME=${DOMAIN}
 
 ## Wordpress ##
 WORDPRESS_DB_USER=wordpress
