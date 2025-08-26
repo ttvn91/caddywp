@@ -24,6 +24,10 @@ if ! wpcli core is-installed ; then
     wpcli rewrite structure '/%postname%/'
     echo "Installing and activating plugins..."
     wpcli plugin install cache-enabler all-in-one-wp-migration redis-cache --activate
+    wpcli theme delete twentytwentyfour twentytwentythree
+    wpcli plugin delete hello akismet
+    wpcli plugin auto-updates enable --all
+    wpcli theme auto-updates enable --all
     wpcli option update cache_enabler '{
                 "version": "1.8.15",
                 "use_trailing_slashes": 1,
@@ -52,8 +56,8 @@ if ! wpcli core is-installed ; then
     wpcli config set WP_REDIS_HOST "redis_${DOMAIN}" --type=constant
     wpcli config set WP_REDIS_PORT "6379" --type=constant
 
-    wpcli plugin update --all
     wpcli theme update --all
+    wpcli plugin update --all
 
     # List users
     #echo "== User List =="
