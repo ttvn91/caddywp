@@ -20,7 +20,7 @@ services:
     container_name: wordpress_${DOMAIN}
     depends_on:
       - db_${DOMAIN}
-    image: wordpress:fpm-alpine
+    image: wordpress:php8.3-fpm-alpine
     volumes:
       - /home/wordpress/${DOMAIN}/html/:/var/www/html
       - /home/caddywp/custom.ini:/usr/local/etc/php/conf.d/custom-php.ini
