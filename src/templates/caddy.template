@@ -16,6 +16,7 @@ ${DOMAIN}, www.${DOMAIN} {
 	header / {
 		X-Frame-Options "SAMEORIGIN"
 		X-Content-Type-Options "nosniff"
+		Cache-Control "public, max-age=600, s-maxage=600, must-revalidate"
 	}
 	import wordpress
 
