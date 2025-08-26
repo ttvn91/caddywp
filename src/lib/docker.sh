@@ -88,7 +88,7 @@ create_docker_compose() {
       - PMA_ABSOLUTE_URI=https://${DOMAIN}/pma/
     restart: always
     networks:
-      - ${DOMAIN}_net
+      - net
       - caddy_net
 EOL
     )
