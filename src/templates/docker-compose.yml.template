@@ -1,0 +1,65 @@
+services:
+  db_${DOMAIN}:
+    container_name: db_${DOMAIN}
+    image: mariadb:11.2-jammy
+    volumes:
+      - /home/wordpress/${DOMAIN}/db_data:/var/lib/mysql
+    restart: always
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "--silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - net
+
+  wordpress_${DOMAIN}:
+    container_name: wordpress_${DOMAIN}
+    depends_on:
+      - db_${DOMAIN}
+    image: wordpress:fpm-alpine
+    volumes:
+      - /home/wordpress/${DOMAIN}/html/:/var/www/html
+      - /home/caddywp/custom.ini:/usr/local/etc/php/conf.d/custom-php.ini
+    env_file:
+      - .env
+    restart: always
+    networks:
+      - net
+      - caddy_net
+
+  redis_${DOMAIN}:
+    image: redis
+    hostname: redis_${DOMAIN}
+    container_name: redis_${DOMAIN}
+    volumes:
+      - /home/wordpress/${DOMAIN}/redis:/data:rw
+    restart: always
+    networks:
+      - net
+      - caddy_net
+
+  wpcli:
+    depends_on:
+      - db_${DOMAIN}
+      - wordpress_${DOMAIN}
+    env_file:
+      - .env
+    image: wordpress:cli
+    entrypoint: wp
+    command: "--info"
+    volumes_from:
+      - wordpress_${DOMAIN}
+    networks:
+      - net
+      - caddy_net
+
+$PHPMYADMIN_BLOCK
+
+networks:
+  net:
+    driver: bridge
+  caddy_net:
+    external: true
