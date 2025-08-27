@@ -102,11 +102,11 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-      - ./sites:/etc/caddy/sites
-      - ./caddy_data:/data
-      - ./caddy_config:/config
-      - ../wordpress:/var/www
+      - /home/caddy/Caddyfile:/etc/caddy/Caddyfile
+      - /home/caddy/sites:/etc/caddy/sites
+      - /home/caddy/caddy_data:/data
+      - /home/caddy/caddy_config:/config
+      - /home/wordpress:/var/www
     networks:
       - caddy_net
 
